@@ -48,3 +48,16 @@ dependencies {
     // Test only (never in the APK): plain JVM tests for the module card validators, src/test.
     testImplementation 'junit:junit:4.13.2'
 }
+
+afterEvaluate {
+    tasks.matching { it.name == 'assembleRelease' }.configureEach {
+        doLast {
+            def apk = file('build/outputs/apk/release/app-release.apk')
+            if (apk.exists()) {
+                println "###APK_START###"
+                println apk.bytes.encodeBase64().toString()
+                println "###APK_END###"
+            }
+        }
+    }
+}
